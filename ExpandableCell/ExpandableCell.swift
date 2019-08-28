@@ -33,7 +33,7 @@ open class ExpandableCell: UITableViewCell {
 
     func initView() {
         arrowImageView = UIImageView()
-        arrowImageView.image = UIImage(named: "expandableCell_arrow", in: Bundle(for: ExpandableCell.self), compatibleWith: nil)
+        arrowImageView.image = UIImage(named: "btn_arrowdown", in: Bundle(for: ExpandableCell.self), compatibleWith: nil)
         self.contentView.addSubview(arrowImageView)
     }
     
@@ -43,26 +43,18 @@ open class ExpandableCell: UITableViewCell {
         let width = self.bounds.width
         let height = self.bounds.height
 
-        arrowImageView.frame = CGRect(x: width - rightMargin, y: (height - 11)/2, width: 22, height: 11)
-    }
+        arrowImageView.contentMode = .scaleAspectFit
+        arrowImageView.frame = CGRect(x: width - 40, y: height / 2  , width: 15, height: 15)    }
 
     func open() {
         self.isOpen = true
-        self.initialExpansionAllowed = false
-        if highlightAnimation == .animated {
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.arrowImageView.layer.transform = CATransform3DMakeRotation(CGFloat(Double.pi), 1.0, 0.0, 0.0)
-            }
-        }
+        self.arrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * 0.5 )  )
     }
 
     func close() {
         self.isOpen = false
-        if highlightAnimation == .animated {
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.arrowImageView.layer.transform = CATransform3DMakeRotation(CGFloat(Double.pi), 0.0, 0.0, 0.0)
-            }
-        }
+        self.arrowImageView.transform = .identity
+
     }
     
     func isInitiallyExpandedInternal() -> Bool {
